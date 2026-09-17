@@ -1,6 +1,6 @@
 ---
 name: career-record
-description: Maintain the person's career record as plain Markdown files in personal-data/record/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, record and review work experience, or define and revise career goals.
+description: Maintain the person's career record as plain Markdown files in ~/.local/share/mission-board/record/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, record and review work experience, or define and revise career goals.
 ---
 
 # Career record
@@ -8,7 +8,7 @@ description: Maintain the person's career record as plain Markdown files in pers
 The career record is the source material for every other skill in this repo:
 job search, resume tailoring, cover letters. It is personal data; the skills
 are reusable. Keep that split: skills and templates stay in the repo, record
-contents stay in `personal-data/`.
+contents stay in `~/.local/share/mission-board/`, called the data home below.
 
 Read `CONTEXT.md` at the repo root, if present, so vocabulary matches the
 project's domain language.
@@ -16,9 +16,8 @@ project's domain language.
 ## Where the record lives
 
 ```
-personal-data/            # gitignored, never committed except .gitkeep
-├── .gitkeep
-└── record/               # the person's inputs; other skills write beside it
+~/.local/share/mission-board/   # outside the repository, never committed
+└── record/                     # the person's inputs; skills write beside it
     ├── profile.md
     ├── experience/
     │   └── <slug>.md
@@ -26,7 +25,7 @@ personal-data/            # gitignored, never committed except .gitkeep
         └── <slug>.md
 ```
 
-Paths below are relative to `personal-data/record/`.
+Paths below are relative to `record/` in the data home.
 
 `<slug>` is a short, stable identifier: one role or project in `experience/`
 (for example `acme-backend-2023`), one direction in `goals/` (for example
@@ -53,12 +52,11 @@ recognize.
 
 ### init
 
-1. Ensure `personal-data/` exists with its `.gitkeep`, and that `.gitignore`
-   ignores the contents but not the `.gitkeep`.
-2. If `personal-data/profile.md` or `personal-data/experience/` exist at the
-   root (the layout before `record/`), move them into `record/`.
+1. If the repository has a `personal-data/` folder holding a record (either
+   `profile.md` at its root or under `record/`), move the record into
+   `record/` in the data home and delete `personal-data/`.
+2. Create `record/` with `experience/` and `goals/` if missing.
 3. Create `profile.md` from the template if missing.
-4. Create `experience/` and `goals/` if missing.
 
 ### Import from LinkedIn URL or resume PDF
 
@@ -73,7 +71,7 @@ Bootstrap the record from material the person already has.
    Mark anything uncertain as an explicit question rather than filling it in.
    Never invent or embellish experience, credentials, or results.
 4. Stop. Let the person expand, correct, and confirm each entry. Nothing is
-   written to `personal-data/` before confirmation.
+   written to the record before confirmation.
 5. Write confirmed entries as files under `experience/`, and merge extracted
    skills and preferences into `profile.md`.
 
@@ -107,6 +105,6 @@ When asked for the record, show the files verbatim instead of paraphrasing.
 ## Boundaries
 
 - Never invent experience, credentials, or results to fill gaps.
-- Nothing inside `personal-data/` is committed, tracked, or published, except
-  `.gitkeep`.
+- Nothing from the data home is copied into the repository, committed, or
+  published.
 - The person reviews and approves every write.

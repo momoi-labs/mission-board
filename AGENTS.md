@@ -2,8 +2,8 @@
 
 Read `README.md` for the project scope and boundaries before changing behavior.
 Read `docs/PRINCIPLES.md` when choosing an implementation approach.
-Personal career data lives in `personal-data/`, gitignored: never commit,
-track, or publish its contents.
+Personal career data lives in `~/.local/share/mission-board/`, outside the
+repository: never copy it into the repo, commit, or publish its contents.
 
 ## Skills
 

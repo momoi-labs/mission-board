@@ -8,10 +8,10 @@ experience, find opportunities, and prepare tailored applications.
 ## Status
 
 The `career-record` skill keeps the profile, experience record, and career
-goals in `personal-data/`. The `job-search` skill assesses a listing the
-person brings against that record and tracks its status. Searching job
-boards, resume tailoring, cover letters, and PDF export are not implemented
-yet.
+goals in `~/.local/share/mission-board/`. The `job-search` skill assesses a
+listing the person brings against that record and tracks its status.
+Searching job boards, resume tailoring, cover letters, and PDF export are not
+implemented yet.
 
 ## Planned scope
 
@@ -34,9 +34,9 @@ Never invent experience, credentials, or results to match a job description.
 
 This repository is intended for reusable skills, templates, documentation,
 and fictional examples. Personal details, career records, saved jobs,
-application notes, and generated documents live in `personal-data/` at the
-repository root. That folder is gitignored: never commit, track, or publish
-its contents.
+application notes, and generated documents live in
+`~/.local/share/mission-board/`, outside the repository: never copy them into
+the repo, commit, or publish them.
 
 Local-first describes where the files live. An AI provider may still process
 content supplied to the assistant.
