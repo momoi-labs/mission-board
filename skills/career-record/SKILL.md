@@ -1,6 +1,6 @@
 ---
 name: career-record
-description: Maintain the person's career record as plain Markdown files in personal-data/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, or record and review work experience.
+description: Maintain the person's career record as plain Markdown files in personal-data/record/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, or record and review work experience.
 ---
 
 # Career record
@@ -18,10 +18,13 @@ project's domain language.
 ```
 personal-data/            # gitignored, never committed except .gitkeep
 ├── .gitkeep
-├── profile.md
-└── experience/
-    └── <slug>.md
+└── record/               # the person's inputs; other skills write beside it
+    ├── profile.md
+    └── experience/
+        └── <slug>.md
 ```
+
+Paths below are relative to `personal-data/record/`.
 
 `<slug>` is a short, stable identifier for one role or project, for example
 `acme-backend-2023`. Once created, a slug never changes.
@@ -43,8 +46,10 @@ recognize.
 
 1. Ensure `personal-data/` exists with its `.gitkeep`, and that `.gitignore`
    ignores the contents but not the `.gitkeep`.
-2. Create `profile.md` from the template if missing.
-3. Create `experience/` if missing.
+2. If `personal-data/profile.md` or `personal-data/experience/` exist at the
+   root (the layout before `record/`), move them into `record/`.
+3. Create `profile.md` from the template if missing.
+4. Create `experience/` if missing.
 
 ### Import from LinkedIn URL or resume PDF
 
