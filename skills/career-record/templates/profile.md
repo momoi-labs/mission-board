@@ -2,6 +2,7 @@
 format: 1
 name:
 email:
+phone:
 location:
 links:
   linkedin:
@@ -26,3 +27,11 @@ want next.
 - Remote:
 - Salary range:
 - Other:
+
+# Education
+
+-
+
+# Languages
+
+-
