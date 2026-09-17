@@ -1,5 +1,7 @@
 # Mission board
 
+![A pirate guild mission board with Chopper's hat and Robin's archaeology books.](docs/assets/mission-board.png)
+
 A local-first career assistant built with skills and plain files. Track your
 experience, find opportunities, and prepare tailored applications.
 
