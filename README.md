@@ -7,9 +7,9 @@ experience, find opportunities, and prepare tailored applications.
 
 ## Status
 
-The `career-record` skill keeps the profile and experience record in
-`personal-data/`. Job search, resume tailoring, cover letters, and PDF export
-are not implemented yet.
+The `career-record` skill keeps the profile, experience record, and career
+goals in `personal-data/`. Job search, resume tailoring, cover letters, and
+PDF export are not implemented yet.
 
 ## Planned scope
 

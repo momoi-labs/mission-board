@@ -1,6 +1,6 @@
 ---
 name: career-record
-description: Maintain the person's career record as plain Markdown files in personal-data/record/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, or record and review work experience.
+description: Maintain the person's career record as plain Markdown files in personal-data/record/. Use when the user wants to set up or update their profile, import experience from a LinkedIn URL or a resume PDF, record and review work experience, or define and revise career goals.
 ---
 
 # Career record
@@ -20,25 +20,34 @@ personal-data/            # gitignored, never committed except .gitkeep
 ├── .gitkeep
 └── record/               # the person's inputs; other skills write beside it
     ├── profile.md
-    └── experience/
+    ├── experience/
+    │   └── <slug>.md
+    └── goals/
         └── <slug>.md
 ```
 
 Paths below are relative to `personal-data/record/`.
 
-`<slug>` is a short, stable identifier for one role or project, for example
-`acme-backend-2023`. Once created, a slug never changes.
+`<slug>` is a short, stable identifier: one role or project in `experience/`
+(for example `acme-backend-2023`), one direction in `goals/` (for example
+`staff-platform-remote`). Once created, a slug never changes.
 
 ## File formats (v1)
 
-Both formats are compatibility contracts. Every file declares `format: 1` in
+All formats are compatibility contracts. Every file declares `format: 1` in
 its frontmatter. Additive changes (new optional fields) stay in version 1;
 removing, renaming, or retyping a field requires version 2, and version 2
 readers must still read version 1. Tolerate frontmatter fields you do not
 recognize.
 
-- Profile: [templates/profile.md](templates/profile.md)
+- Profile: [templates/profile.md](templates/profile.md). Its "Job
+  preferences" section holds the hard filters: roles, locations, remote
+  policy, salary range.
 - Experience entry: [templates/experience.md](templates/experience.md)
+- Goal: [templates/goal.md](templates/goal.md). One direction the person is
+  pursuing: where they want to go, what a role must have, what they avoid,
+  which companies or industries they target. Several goals can be active at
+  once; a person exploring two paths keeps two files.
 
 ## Actions
 
@@ -49,7 +58,7 @@ recognize.
 2. If `personal-data/profile.md` or `personal-data/experience/` exist at the
    root (the layout before `record/`), move them into `record/`.
 3. Create `profile.md` from the template if missing.
-4. Create `experience/` if missing.
+4. Create `experience/` and `goals/` if missing.
 
 ### Import from LinkedIn URL or resume PDF
 
@@ -68,6 +77,16 @@ Bootstrap the record from material the person already has.
 5. Write confirmed entries as files under `experience/`, and merge extracted
    skills and preferences into `profile.md`.
 
+### Set goals
+
+1. Ask what the person wants next: the direction for the next one to three
+   years, what a role must have, what would be nice, what they avoid, and
+   which companies or industries they target. One goal per distinct
+   direction.
+2. Draft the goal in the person's words and show it. Where they were vague,
+   ask instead of guessing.
+3. Write `goals/<slug>.md` after the person confirms.
+
 ### Update
 
 - Profile: edit `profile.md`, keep existing frontmatter fields intact, set
@@ -75,12 +94,15 @@ Bootstrap the record from material the person already has.
 - Experience: edit the entry file, or add a new one for a new role or
   project. One concern per file. Respect the person's wording; suggest
   improvements, do not apply them unasked.
+- Goals: edit the goal file, set `updated` to today. When a goal no longer
+  applies, set `status` to `paused` or `done` instead of deleting the file:
+  past goals explain past applications.
 
 ### Read
 
-Other skills consume the record: `profile.md` plus every file in
-`experience/`. When asked for the record, show the files verbatim instead of
-paraphrasing.
+Other skills consume the record: `profile.md`, every file in `experience/`,
+and the goals in `goals/` with `status: active` unless asked for all of them.
+When asked for the record, show the files verbatim instead of paraphrasing.
 
 ## Boundaries
 
