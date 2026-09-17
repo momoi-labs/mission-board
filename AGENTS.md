@@ -2,7 +2,13 @@
 
 Read `README.md` for the project scope and boundaries before changing behavior.
 Read `docs/PRINCIPLES.md` when choosing an implementation approach.
-Keep personal career records and generated applications outside this public repository.
+Personal career data lives in `personal-data/`, gitignored: never commit,
+track, or publish its contents.
+
+## Skills
+
+Skills live in `skills/`. Each skill defines its formats and boundaries in its
+`SKILL.md`; read it before changing that skill's behavior.
 
 ## Agent skills
 
