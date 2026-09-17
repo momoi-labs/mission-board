@@ -1,13 +1,13 @@
 ---
 name: job-search
-description: Assess a job listing against the person's career record and goals, save it under personal-data/jobs/, and track its status. Use when the user shares a job URL or pastes a listing, asks whether a role fits them, or wants to update or list the jobs they are pursuing.
+description: Assess a job listing against the person's career record and goals, save it under ~/.local/share/mission-board/jobs/, and track its status. Use when the user shares a job URL or pastes a listing, asks whether a role fits them, or wants to update or list the jobs they are pursuing.
 ---
 
 # Job search
 
 Reads the career record kept by the `career-record` skill and writes one file
-per job under `personal-data/jobs/`. The person decides what to pursue; this
-skill assesses and tracks.
+per job under `jobs/` in the data home, `~/.local/share/mission-board/`. The
+person decides what to pursue; this skill assesses and tracks.
 
 Read `CONTEXT.md` at the repo root, if present, so vocabulary matches the
 project's domain language.
@@ -15,10 +15,10 @@ project's domain language.
 ## Where jobs live
 
 ```
-personal-data/
-├── record/               # owned by career-record, read here
+~/.local/share/mission-board/   # outside the repository, never committed
+├── record/                     # owned by career-record, read here
 └── jobs/
-    └── <slug>.md         # one file per listing
+    └── <slug>.md               # one file per listing
 ```
 
 `<slug>` is `<company>-<role>` in short form, for example
@@ -75,5 +75,6 @@ Show `jobs/` grouped by `status`, one line per job: slug, title, company,
 - Never invent experience, credentials, or results to close a gap.
 - No automated applications, bulk outreach, or messages sent on the person's
   behalf.
-- Nothing inside `personal-data/` is committed, tracked, or published.
+- Nothing from the data home is copied into the repository, committed, or
+  published.
 - The person reviews and approves every write.

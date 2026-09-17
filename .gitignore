@@ -3,9 +3,5 @@
 .env.*
 !.env.example
 
-# Personal career data: never commit or publish
-personal-data/*
-!personal-data/.gitkeep
-
 # CLAUDE.md is a tracked symlink alias for AGENTS.md
 !CLAUDE.md

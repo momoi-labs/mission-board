@@ -1,8 +1,8 @@
 ---
-status: accepted
+status: superseded
 date: 2026-09-17
 supersedes: []
-superseded_by: null
+superseded_by: "ADR-0004"
 tags: [storage, privacy]
 ---
 
