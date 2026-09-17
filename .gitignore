@@ -2,3 +2,7 @@
 .env
 .env.*
 !.env.example
+
+# Personal career data: never commit or publish
+personal-data/*
+!personal-data/.gitkeep

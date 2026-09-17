@@ -28,9 +28,11 @@ Never invent experience, credentials, or results to match a job description.
 
 ## Public and private files
 
-This public repository is intended for reusable skills, templates, documentation,
-and fictional examples. Keep personal details, career records, saved jobs, application notes,
-and generated documents in a separate private folder outside this repository.
+This repository is intended for reusable skills, templates, documentation,
+and fictional examples. Personal details, career records, saved jobs,
+application notes, and generated documents live in `personal-data/` at the
+repository root. That folder is gitignored: never commit, track, or publish
+its contents.
 
 Local-first describes where the files live. An AI provider may still process
 content supplied to the assistant.
