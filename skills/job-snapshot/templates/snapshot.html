@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<!-- Write every reader-facing string in the conversation language. English
+     labels below are placeholders. Keep paths, slugs, and URLs as they are. -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+  /* Colors from Kiso tokens: github.com/momoi-labs/blueprint */
+  :root {
+    color-scheme: light dark;
+    --bg: light-dark(#f4f2ee, #211f1c);
+    --surface: light-dark(#faf9f7, #2d2b28);
+    --fg: light-dark(#1b1a1e, #eeece9);
+    --muted: light-dark(#5f5b57, #aba9a5);
+    --line: light-dark(#e0dcd6, #494744);
+    --accent: light-dark(#5b3fc4, #a793f4);
+    --accent-soft: light-dark(#f7f4ff, #2d2843);
+    --done: light-dark(#0c6b43, #5bd295);
+  }
+  [data-theme="light"] { color-scheme: light; }
+  [data-theme="dark"] { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 48rem; padding: 3rem 2rem 4rem;
+    background: var(--bg); color: var(--fg);
+    font: 100%/1.6 Inter, system-ui, -apple-system, sans-serif;
+    overflow-wrap: anywhere;
+  }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .meta { color: var(--muted); font-size: 0.75rem; margin: 0; }
+  button {
+    font: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; color: var(--muted);
+    min-height: 36px; padding: 0 0.75rem; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  button:hover { background: var(--accent-soft); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  h1 { font-size: 1.875rem; font-weight: 500; letter-spacing: -0.02rem; line-height: 1.2; margin: 0 0 1rem; }
+  h2 { font-size: 1.125rem; font-weight: 600; margin: 2.5rem 0 1rem; }
+  .facts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 2rem; }
+  .chip { font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0.125rem 0.5rem; }
+  .lead { margin: 0 0 2rem; max-width: 65ch; }
+  .lead p { margin: 0.75rem 0; }
+  .lead p:first-child { font-size: 1.125rem; line-height: 1.5; }
+  .lead p + p { color: var(--muted); }
+  .cards { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+  .card { border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.25rem; background: var(--surface); }
+  .card .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
+  .card .company { font-weight: 600; }
+  .card .role { color: var(--muted); }
+  .card .when { color: var(--muted); font-size: 0.75rem; margin-left: auto; }
+  .card .note { margin: 0.5rem 0 0; font-size: 0.875rem; }
+  .next { border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1.25rem 1.5rem; background: var(--surface); }
+  .next ol { margin: 0; padding-left: 1.25rem; }
+  .next li { margin: 0.5rem 0; }
+  .next .detail { display: block; color: var(--muted); font-size: 0.875rem; }
+  details { border-top: 1px solid var(--line); padding: 1rem 0; margin-top: 2rem; }
+  summary { font-weight: 600; cursor: pointer; }
+  summary::marker { color: var(--muted); font-size: 0.75rem; }
+  details[open] > summary { margin-bottom: 1rem; }
+  details ul { padding-left: 1.25rem; margin: 0; }
+  details li { margin: 0.5rem 0; font-size: 0.875rem; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  code { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.875em; }
+  @media (max-width: 520px) {
+    body { padding: 1.5rem 1rem 3rem; }
+    h1 { font-size: 1.5rem; }
+    .card .when { margin-left: 0; width: 100%; }
+  }
+</style>
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem("focusdoc-theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+  <div class="topbar">
+    <p class="meta">Snapshot {{DATE}} · job search</p>
+    <button type="button" id="theme-toggle">Auto</button>
+  </div>
+  <h1>{{TITLE}}</h1>
+  <p class="facts">
+    <!-- One chip per non-empty status, in pipeline order, plus the active goal. -->
+    <span class="chip">{{N}} interviewing</span>
+    <span class="chip">{{N}} applied</span>
+    <span class="chip">{{N}} waiting for a reply</span>
+    <span class="chip">{{N}} closed</span>
+  </p>
+  <div class="lead">
+    <p><strong>{{STATE_SENTENCE}}</strong></p>
+    <p>{{WHAT_CHANGED}}</p>
+  </div>
+
+  <h2>Next</h2>
+  <section class="next">
+    <ol>
+      <!-- Do-order. Action first, then where and what counts as done. -->
+      <li>{{ACTION}}<span class="detail">{{DETAIL}}</span></li>
+    </ol>
+  </section>
+
+  <h2>In progress</h2>
+  <ul class="cards">
+    <!-- interviewing first, then applied. Most recently updated first within a status. -->
+    <li class="card">
+      <div class="head">
+        <span class="company">{{COMPANY}}</span>
+        <span class="role"><a href="{{URL}}">{{TITLE}}</a></span>
+        <span class="when">{{STATUS}} · {{UPDATED}}</span>
+      </div>
+      <p class="note">{{LAST_NOTE}}</p>
+    </li>
+  </ul>
+
+  <h2>Waiting for a reply</h2>
+  <ul class="cards">
+    <!-- shortlisted jobs whose latest note is an outreach. -->
+    <li class="card">
+      <div class="head">
+        <span class="company">{{COMPANY}}</span>
+        <span class="role">{{TITLE_OR_CONTACT_ROLE}}</span>
+        <span class="when">{{CONTACT}} · {{DAYS}} days</span>
+      </div>
+      <p class="note">{{WHAT_WAS_ASKED}}</p>
+    </li>
+  </ul>
+
+  <details>
+    <summary>Closed ({{N}})</summary>
+    <ul>
+      <li><b>{{COMPANY}}</b> | {{TITLE}}: {{OUTCOME}}, {{DATE}}.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Since the last snapshot</summary>
+    <ul>
+      <li>{{ONE_EVENT_PER_LINE}}</li>
+    </ul>
+  </details>
+
+<script>
+(function () {
+  var btn = document.getElementById("theme-toggle");
+  var order = ["auto", "light", "dark"];
+  var labels = { auto: "Auto", light: "Light", dark: "Dark" };
+  function current() {
+    var t = document.documentElement.getAttribute("data-theme");
+    return t === "light" || t === "dark" ? t : "auto";
+  }
+  function set(t) {
+    if (t === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", t);
+    btn.textContent = labels[t];
+    try { localStorage.setItem("focusdoc-theme", t); } catch (e) {}
+  }
+  btn.addEventListener("click", function () {
+    set(order[(order.indexOf(current()) + 1) % order.length]);
+  });
+  btn.textContent = labels[current()];
+})();
+</script>
+</body>
+</html>
