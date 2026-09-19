@@ -9,7 +9,8 @@ experience, find opportunities, and prepare tailored applications.
 
 The `career-record` skill keeps the profile, experience record, and career
 goals in `~/.local/share/mission-board/`. The `job-search` skill assesses a
-listing the person brings against that record and tracks its status.
+listing the person brings against that record and tracks its status. The
+`job-snapshot` skill renders those jobs as one shareable HTML page.
 Searching job boards, resume tailoring, cover letters, and PDF export are not
 implemented yet.
 
