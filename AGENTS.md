@@ -7,10 +7,16 @@ repository: never copy it into the repo, commit, or publish its contents.
 
 ## Skills
 
-Skills live in `skills/`. Each skill defines its formats and boundaries in its
-`SKILL.md`; read it before changing that skill's behavior.
+Skills live in `skills/` and `.agents/skills/`. Each skill defines its formats
+and boundaries in its `SKILL.md`; read it before changing that skill's behavior.
 
 ## Agent skills
+
+### Ideal work
+
+When helping someone discover how they want to work, define their next career
+objectives, or describe their ideal role, use
+[ideal-work](.agents/skills/ideal-work/SKILL.md).
 
 ### Issue tracker
 

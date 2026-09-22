@@ -13,6 +13,18 @@ listing the person brings against that record and tracks its status. The
 `job-snapshot` skill renders those jobs as one shareable HTML page.
 Searching job boards, resume tailoring, cover letters, and PDF export are not
 implemented yet.
+## Available skills
+
+[Ideal work](.agents/skills/ideal-work/SKILL.md) guides a conversation about the
+work you enjoy, how you want to collaborate, and your next career objectives.
+Choose a short description, a few paragraphs, or a fuller personal reflection.
+
+To start, ask your agent to use `ideal-work` in this repository. For example:
+
+> Use ideal-work to help me figure out how I want to work and what to explore next.
+
+The exercise stays in the conversation unless you ask to save it in
+`~/.local/share/mission-board/`, outside this repository.
 
 ## Planned scope
 
