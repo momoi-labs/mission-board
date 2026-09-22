@@ -2,7 +2,7 @@
 
 [English](README.md) | [Português (Brasil)](README.pt-BR.md) | [Español (España)](README.es-ES.md)
 
-![A pirate guild mission board with Chopper's hat and Robin's archaeology books.](docs/assets/mission-board.png)
+![Chopper peeks around a pirate guild mission board, with his pink hat and medical bag on a table and Robin's hat and archaeology books nearby.](docs/assets/mission-board.png)
 
 A local-first career assistant built with skills and plain files. Track your
 experience, find opportunities, and prepare tailored applications.
