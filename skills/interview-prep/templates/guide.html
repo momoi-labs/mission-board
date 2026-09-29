@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<!-- Each section shows one example of every component it uses: copy the
+     component, replace the example content, and drop what the job does not
+     need. Reader-facing text lives in the markup, the three callout labels
+     in the CSS, and the UI object in the script. -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:light-dark(#f6f5f1,#15171a);
+  --card:light-dark(#ffffff,#1e2125);
+  --fg:light-dark(#1c2226,#e5e7ea);
+  --muted:light-dark(#5a636a,#a0a8b0);
+  --line:light-dark(#dedbd3,#33373c);
+  --new:light-dark(#b45309,#f5a524);
+  --new-soft:light-dark(#fff3e2,#3a2b14);
+  --known:light-dark(#1f4fd1,#86a8ff);
+  --known-soft:light-dark(#eaf0ff,#1d2742);
+  --you:light-dark(#0f766e,#5ad8c6);
+  --you-soft:light-dark(#e3f5f1,#11302b);
+  --warn:light-dark(#b42318,#ff8a80);
+  --warn-soft:light-dark(#fdecea,#3b1d1b);
+  --code:light-dark(#f1efe9,#262a2f);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:54rem;margin:0 auto;padding:1rem 1.25rem 6rem}
+a{color:var(--known);text-underline-offset:3px}
+h1{font-size:2rem;line-height:1.2;margin:1rem 0 .4rem}
+h3{font-size:1.15rem;margin:1.4rem 0 .5rem}
+p{margin:0 0 .8rem}
+ul,ol{padding-left:1.4rem;margin:.4rem 0 .9rem}
+li{margin:.25rem 0}
+.meta{color:var(--muted);font-size:15px;margin:0 0 .6rem}
+.legend{font-size:15px;color:var(--muted)}
+
+/* sticky bar */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:54rem;margin:0 auto;padding:.5rem 1.25rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.bar progress{flex:1;min-width:100px;height:8px;accent-color:var(--you)}
+.bar .count{font-size:14px;color:var(--muted);white-space:nowrap}
+button{font:inherit;font-size:15px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;padding:.3rem .8rem;cursor:pointer}
+button:hover{border-color:var(--known)}
+button[aria-pressed="true"]{background:var(--known);color:var(--card);border-color:var(--known)}
+:focus-visible{outline:3px solid var(--new);outline-offset:2px}
+
+/* map */
+.map{columns:2 16rem;column-gap:1.5rem;list-style:none;padding:0;margin:.8rem 0 0;font-size:16px}
+.map li{break-inside:avoid;margin:.15rem 0;display:flex;gap:.4rem;align-items:baseline}
+.map .st{width:1.1rem;flex:none;color:var(--you);font-weight:700}
+.map a{text-decoration:none;color:var(--fg)}
+.map a:hover{text-decoration:underline}
+.map .m{color:var(--muted);font-size:13px;margin-left:auto;white-space:nowrap}
+.map li.ok a{color:var(--muted);text-decoration:line-through}
+
+/* sections */
+section.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.5rem;margin:1.4rem 0}
+section.step.is-done{border-left:6px solid var(--you)}
+.sh{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin-bottom:.8rem}
+.sh h2{margin:0;font-size:1.5rem;line-height:1.25;flex:1;min-width:12rem}
+main{counter-reset:sec}
+section.step{counter-increment:sec}
+.sh h2::before{content:counter(sec);color:var(--muted);margin-right:.35rem}
+.sh .min{font-size:14px;color:var(--muted)}
+label.done{font-size:14px;display:inline-flex;gap:.35rem;align-items:center;cursor:pointer;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:.15rem .6rem}
+body.focus section.step:not(.current){display:none}
+body.focus .intro{display:none}
+
+/* callouts */
+.key{font-size:1.12rem;font-weight:600;border-left:6px solid var(--you);background:var(--you-soft);padding:.7rem 1rem;border-radius:8px;margin:0 0 1rem}
+.say,.trap,.idk{padding:.75rem 1rem;border-radius:8px;margin:1rem 0}
+.say{border-left:6px solid var(--known);background:var(--known-soft)}
+.trap{border-left:6px solid var(--warn);background:var(--warn-soft)}
+.idk{border-left:6px solid var(--new);background:var(--new-soft)}
+.say::before,.trap::before,.idk::before{display:block;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.2rem}
+.say::before{content:"Say this";color:var(--known)}
+.trap::before{content:"Trap";color:var(--warn)}
+.idk::before{content:"If you don't know";color:var(--new)}
+.say p:last-child,.trap p:last-child,.idk p:last-child{margin:0}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.05rem .4rem;border-radius:5px;vertical-align:.15em;margin-right:.3rem}
+.tag.new{background:var(--new-soft);color:var(--new)}
+.tag.known{background:var(--known-soft);color:var(--known)}
+.tag.you{background:var(--you-soft);color:var(--you)}
+
+/* grids */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.8rem}
+.fact{border:1px solid var(--line);border-radius:10px;padding:.75rem 1rem;background:var(--bg)}
+.fact h3{font-size:1.02rem;margin:.1rem 0 .3rem}
+.fact p{margin:0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:.9rem}
+.card{border:1px solid var(--line);border-radius:10px;padding:.85rem 1rem;background:var(--bg)}
+.card h3{margin:0 0 .5rem;font-size:1.08rem}
+.card dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:.3rem .7rem;font-size:15.5px}
+.card dt{font-weight:700;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;padding-top:.2rem}
+.card dd{margin:0}
+
+/* tables, code, details */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:.8rem 0 1rem}
+th,td{border-bottom:1px solid var(--line);padding:.45rem .55rem;text-align:left;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+code{font:.86em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:4px}
+pre{background:var(--code);padding:.8rem 1rem;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.45;position:relative;margin:.6rem 0 1rem}
+pre code{background:none;padding:0;font-size:inherit}
+pre .copy{position:absolute;top:.4rem;right:.4rem;font-size:12px;padding:.1rem .5rem;opacity:.75}
+details{border:1px solid var(--line);border-radius:10px;padding:.55rem .95rem;margin:.6rem 0;background:var(--bg)}
+summary{cursor:pointer;font-weight:600}
+details[open]>summary{margin-bottom:.5rem}
+section.step{counter-reset:q}
+details.question{counter-increment:q}
+details.question>summary::before{content:counter(q) ". "}
+ul.check{list-style:none;padding-left:0}
+ul.check li{display:flex;gap:.6rem;align-items:flex-start;margin:.5rem 0}
+ul.check input{margin-top:.38rem;width:1.1rem;height:1.1rem;flex:none;accent-color:var(--you)}
+ul.check li:has(input:checked) span{color:var(--muted);text-decoration:line-through}
+.t{font-size:13px;color:var(--muted);font-weight:700}
+textarea{width:100%;min-height:6rem;font:inherit;font-size:16px;padding:.6rem .7rem;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);margin:.3rem 0 1rem}
+.flow{list-style:none;padding:0;counter-reset:f;margin:.6rem 0 1rem}
+.flow li{counter-increment:f;position:relative;padding:.55rem .8rem .55rem 2.8rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin:.45rem 0}
+.flow li::before{content:counter(f);position:absolute;left:.8rem;top:.5rem;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--known);color:var(--card);font-weight:700;font-size:14px;display:grid;place-items:center}
+
+/* diagrams */
+figure{margin:1.2rem 0}
+figure svg{width:100%;height:auto;max-width:640px;display:block;margin:0 auto}
+figcaption{font-size:15px;color:var(--muted);text-align:center;margin-top:.4rem}
+svg text{fill:var(--fg);font:13px system-ui,-apple-system,sans-serif}
+svg .b{font-weight:700}
+svg .s{font-size:11px;fill:var(--muted)}
+svg .lbl{font-size:12px;fill:var(--muted);font-weight:700;letter-spacing:.05em}
+svg .w{fill:var(--warn);font-weight:700}
+svg .box{fill:var(--card);stroke:var(--fg);stroke-width:1.3}
+svg .known{fill:var(--known-soft);stroke:var(--known);stroke-width:1.5}
+svg .new{fill:var(--new-soft);stroke:var(--new);stroke-width:1.5}
+svg .you{fill:var(--you-soft);stroke:var(--you);stroke-width:1.5}
+svg .warn{fill:var(--warn-soft);stroke:var(--warn);stroke-width:1.5}
+svg .ghost{fill:var(--bg);stroke:var(--muted);stroke-width:1.3;stroke-dasharray:4 3}
+svg .zone{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:6 5}
+svg .ln{stroke:var(--fg);stroke-width:1.6;fill:none}
+svg .ln-m{stroke:var(--muted);stroke-width:1.2;fill:none}
+svg .arr{stroke:var(--fg);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+svg .arr-new{stroke:var(--new);stroke-width:2;fill:none;marker-end:url(#ah-new)}
+svg .arr-warn{stroke:var(--warn);stroke-width:1.8;fill:none;marker-end:url(#ah-warn)}
+svg .dash{stroke-dasharray:6 4}
+svg .mk{fill:var(--fg)}
+svg .mk-new{fill:var(--new)}
+svg .mk-warn{fill:var(--warn)}
+svg .bgl{fill:var(--card)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="ah-new" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="mk-new" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="ah-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="mk-warn" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+</svg>
+
+<div class="bar"><div class="bar-in">
+  <progress id="prog" value="0"></progress>
+  <span class="count" id="count"></span>
+  <button id="focusBtn" aria-pressed="false" title="Show one section at a time">Focus mode</button>
+  <button id="prevBtn">Prev</button>
+  <button id="nextBtn">Next</button>
+</div></div>
+
+<main>
+
+<div class="intro">
+  <h1>{{TITLE}}</h1>
+  <p class="meta">{{ROLE}} · {{FORMAT_AND_DURATION}} · {{DEADLINE_OR_DATE}}</p>
+  <p class="legend">Tags: <span class="tag new">{{NEW_TAG}}</span> new names and numbers to learn. <span class="tag known">{{KNOWN_TAG}}</span> you already know it. <span class="tag you">You</span> your own experience.
+  Use <b>Focus mode</b> to see one section at a time. Checkboxes and notes save in this browser.</p>
+  <ol class="map" id="map"></ol>
+</div>
+
+<!-- Each section: class="step" and a unique id. The page numbers the
+     sections and builds the map from each h2 and .min. -->
+
+<section class="step" id="start">
+  <div class="sh"><h2>Start here</h2><span class="min">3 min</span></div>
+  <p class="key">One line: the point of the whole guide.</p>
+  <div class="facts">
+    <div class="fact"><h3><span class="tag new">{{NEW_TAG}}</span>Fact title</h3><p>Two or three short sentences, with the <b>number or name</b> to remember.</p></div>
+    <div class="fact"><h3><span class="tag known">{{KNOWN_TAG}}</span>Fact title</h3><p>Something the record already shows, in the words the interviewer will use.</p></div>
+  </div>
+</section>
+
+<section class="step" id="plan">
+  <div class="sh"><h2>Plan</h2><span class="min">read 2 min</span></div>
+  <p class="key">How long today, how long right before.</p>
+  <h3>Before the day</h3>
+  <ul class="check">
+    <li><input type="checkbox" data-k="p1"><span><span class="t">10 min</span> A concrete task that names the sections to read or the thing to do.</span></li>
+  </ul>
+  <h3>Optional labs</h3>
+  <details>
+    <summary>Lab name (cost, time)</summary>
+    <p>What it shows. Commands, then cleanup.</p>
+<pre><code>command --to-run</code></pre>
+  </details>
+  <h3>Right before</h3>
+  <ul class="check">
+    <li><input type="checkbox" data-k="b1"><span>Read "Start here" and "Traps" once.</span></li>
+    <li><input type="checkbox" data-k="b2"><span>Close this guide: you may share your screen.</span></li>
+  </ul>
+</section>
+
+<section class="step" id="pitch">
+  <div class="sh"><h2>Pitch</h2><span class="min">3 min</span></div>
+  <p class="key">Open strong, name the gap once, then show what you know underneath.</p>
+  <div class="say"><p>"A 30-second introduction written only from the record."</p></div>
+  <div class="say"><p>One honest line about the main gap, and what the person knows that covers it.</p></div>
+  <ol class="flow">
+    <li><b>Answer</b> in one sentence.</li>
+    <li><b>How it works</b>: two or three facts, with names and numbers.</li>
+    <li><b>Example</b> from your real work.</li>
+    <li><b>Trade-off or risk</b>, then stop talking.</li>
+  </ol>
+  <div class="idk"><p>"I haven't done that hands-on. From how it works, I'd expect X, and I'd confirm it before touching production."</p></div>
+</section>
+
+<section class="step" id="translate">
+  <div class="sh"><h2>Translate your experience</h2><span class="min">3 min</span></div>
+  <p class="key">Same problems, different names.</p>
+  <div class="tw"><table>
+    <thead><tr><th>What you have done</th><th>What they call it</th></tr></thead>
+    <tbody>
+      <tr><td>Tool or practice from the record</td><td>The company's or product's name for it</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- One section like this per focus area. -->
+<section class="step" id="topic-example">
+  <div class="sh"><h2>Topic</h2><span class="min">7 min</span></div>
+  <p class="key">The one thing to remember about this topic.</p>
+  <figure>
+    <svg viewBox="0 0 520 190" role="img" aria-label="Describe the diagram in one sentence">
+      <rect class="zone" x="20" y="20" width="220" height="150" rx="12"/><text class="lbl" x="34" y="40">ZONE A</text>
+      <rect class="zone" x="280" y="20" width="220" height="150" rx="12"/><text class="lbl" x="294" y="40">ZONE B</text>
+      <rect class="known" x="55" y="72" width="150" height="46" rx="8"/><text class="b" x="130" y="92" text-anchor="middle">Component</text><text class="s" x="130" y="109" text-anchor="middle">what it does</text>
+      <rect class="ghost" x="315" y="72" width="150" height="46" rx="8"/><text class="b" x="390" y="92" text-anchor="middle">Standby</text><text class="s" x="390" y="109" text-anchor="middle">what it does</text>
+      <line class="arr-new" x1="205" y1="95" x2="312" y2="95"/>
+      <rect class="bgl" x="221" y="75" width="76" height="15" rx="3"/>
+      <text class="s" x="259" y="86" text-anchor="middle">label on line</text>
+    </svg>
+    <figcaption>What the diagram shows, and the number that matters.</figcaption>
+  </figure>
+  <ul>
+    <li><span class="tag new">{{NEW_TAG}}</span><b>Term</b>: one short explanation.</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Option A</th><th>Option B</th></tr></thead>
+    <tbody><tr><td><b>Aspect</b></td><td>Short value</td><td>Short value</td></tr></tbody>
+  </table></div>
+  <div class="trap"><p>A detail people get wrong.</p></div>
+</section>
+
+<section class="step" id="playbooks">
+  <div class="sh"><h2>Playbooks</h2><span class="min">7 min</span></div>
+  <p class="key">Same shape every time: look, stop the bleeding, find the cause, prevent it.</p>
+  <div class="cards">
+    <div class="card"><h3>Symptom</h3><dl>
+      <dt>Look</dt><dd>Where to look first</dd>
+      <dt>Causes</dt><dd>Likely causes</dd>
+      <dt>Now</dt><dd>What to do right away</dd>
+      <dt>Prevent</dt><dd>The guardrail that keeps it from coming back</dd>
+    </dl></div>
+  </div>
+</section>
+
+<section class="step" id="traps">
+  <div class="sh"><h2>Traps</h2><span class="min">3 min</span></div>
+  <p class="key">Read this list right before the interview.</p>
+  <ol>
+    <li>One detail per line, with the <b>word that matters</b> in bold.</li>
+  </ol>
+</section>
+
+<section class="step" id="practice">
+  <div class="sh"><h2>Practice questions</h2><span class="min">20 min</span></div>
+  <p class="key">Answer out loud first. Then open the outline and check what you missed.</p>
+  <details class="question"><summary>The question, as an interviewer would ask it.</summary><ul>
+    <li>The answer in one sentence.</li>
+    <li>How it works.</li>
+    <li>An example from the record.</li>
+    <li>The trade-off.</li>
+  </ul></details>
+</section>
+
+<section class="step" id="stories">
+  <div class="sh"><h2>Your examples</h2><span class="min">5 min</span></div>
+  <p class="key">Short stories you can reuse. Real facts only.</p>
+  <h3><span class="tag you">You</span>Story prompt</h3>
+  <p>Which experience entry, and the questions to answer: what happened, what you did, the result, what changed after.</p>
+  <textarea data-k="s1" placeholder="What happened / what I did / result / what changed after"></textarea>
+</section>
+
+<section class="step" id="cheat">
+  <div class="sh"><h2>Cheat sheet</h2><span class="min">reference</span></div>
+  <p class="key">Knowing these exist is enough.</p>
+  <h3>What it does</h3>
+<pre><code>command or query</code></pre>
+</section>
+
+<section class="step" id="sources">
+  <div class="sh"><h2>Sources</h2><span class="min">reference</span></div>
+  <p class="key">If you read only two, read these.</p>
+  <ul>
+    <li><a href="https://example.com">Source title</a></li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+(() => {
+  const KEY = '{{STORAGE_KEY}}'; // guide-<job-slug>, unique per guide
+  const UI = {
+    done: 'Done',
+    count: (n, total) => `${n} of ${total} done`,
+    copy: 'Copy',
+    copied: 'Copied',
+  };
+  let state;
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch { state = {}; }
+  state.done ??= {}; state.checks ??= {}; state.notes ??= {};
+  const save = () => localStorage.setItem(KEY, JSON.stringify(state));
+
+  const steps = [...document.querySelectorAll('section.step')];
+  const map = document.getElementById('map');
+  const prog = document.getElementById('prog');
+  const count = document.getElementById('count');
+  const focusBtn = document.getElementById('focusBtn');
+  let cur = 0;
+
+  steps.forEach((s, i) => {
+    const li = document.createElement('li');
+    const title = s.querySelector('h2').textContent;
+    const min = s.querySelector('.sh .min')?.textContent ?? '';
+    li.innerHTML = `<span class="st"></span><a href="#${s.id}">${i + 1}. ${title}</a><span class="m">${min}</span>`;
+    li.querySelector('a').addEventListener('click', () => { cur = i; if (focused()) show(); });
+    map.append(li);
+
+    const lab = document.createElement('label');
+    lab.className = 'done';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state.done[s.id];
+    cb.addEventListener('change', () => { state.done[s.id] = cb.checked; save(); refresh(); });
+    lab.append(cb, UI.done);
+    s.querySelector('.sh').append(lab);
+  });
+
+  document.querySelectorAll('ul.check input[data-k]').forEach(cb => {
+    cb.checked = !!state.checks[cb.dataset.k];
+    cb.addEventListener('change', () => { state.checks[cb.dataset.k] = cb.checked; save(); });
+  });
+  document.querySelectorAll('textarea[data-k]').forEach(ta => {
+    ta.value = state.notes[ta.dataset.k] || '';
+    ta.addEventListener('input', () => { state.notes[ta.dataset.k] = ta.value; save(); });
+  });
+
+  document.querySelectorAll('pre').forEach(pre => {
+    const b = document.createElement('button');
+    b.className = 'copy'; b.textContent = UI.copy;
+    b.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(pre.querySelector('code').innerText);
+      b.textContent = UI.copied; setTimeout(() => b.textContent = UI.copy, 1200);
+    });
+    pre.append(b);
+  });
+
+  function refresh() {
+    const n = steps.filter(s => state.done[s.id]).length;
+    prog.max = steps.length; prog.value = n;
+    count.textContent = UI.count(n, steps.length);
+    steps.forEach((s, i) => {
+      s.classList.toggle('is-done', !!state.done[s.id]);
+      map.children[i].classList.toggle('ok', !!state.done[s.id]);
+      map.children[i].querySelector('.st').textContent = state.done[s.id] ? '✓' : '';
+    });
+  }
+
+  const focused = () => document.body.classList.contains('focus');
+  function show() {
+    steps.forEach((s, i) => s.classList.toggle('current', i === cur));
+    if (focused()) window.scrollTo({ top: 0 });
+    else steps[cur].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function currentFromScroll() {
+    let idx = 0;
+    steps.forEach((s, i) => { if (s.getBoundingClientRect().top <= 90) idx = i; });
+    return idx;
+  }
+  function go(d) {
+    if (!focused()) cur = currentFromScroll();
+    cur = Math.max(0, Math.min(steps.length - 1, cur + d));
+    show();
+  }
+
+  focusBtn.addEventListener('click', () => {
+    const on = !focused();
+    if (on) {
+      cur = currentFromScroll();
+      const firstOpen = steps.findIndex(s => !state.done[s.id]);
+      if (cur === 0 && firstOpen > 0) cur = firstOpen;
+    }
+    document.body.classList.toggle('focus', on);
+    focusBtn.setAttribute('aria-pressed', String(on));
+    show();
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => go(-1));
+  document.getElementById('nextBtn').addEventListener('click', () => go(1));
+  document.addEventListener('keydown', e => {
+    if (!focused() || e.target.closest('textarea, input')) return;
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>

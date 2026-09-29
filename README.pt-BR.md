@@ -14,8 +14,10 @@ A skill `career-record` mantém o perfil, o registro de experiências e os
 objetivos profissionais em `~/.local/share/mission-board/`. A skill `job-search`
 avalia uma vaga trazida pela pessoa com base nesses registros e acompanha seu
 status. A skill `job-snapshot` reúne essas vagas em uma página HTML para
-compartilhar. A busca em sites de vagas, a adaptação de currículos, as cartas de
-apresentação e a exportação para PDF ainda não foram implementadas.
+compartilhar. A skill `interview-prep` monta um guia de estudo para a próxima
+entrevista de uma vaga. A busca em sites de vagas, a adaptação de
+currículos, as cartas de apresentação e a exportação para PDF ainda não foram
+implementadas.
 
 ## Skills disponíveis
 
